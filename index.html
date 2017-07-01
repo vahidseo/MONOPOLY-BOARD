@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Majestic Monopoly</title>
+		
+		<!--meta-->
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="mobile-web-app-capable" content="yes" />
+		<meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=1.0, initial-scale=1.0" />
+		
+		<!--styles-->
+		<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="styles/main.css" />
+		
+		<!--scripts-->
+		<script src="js/main.js"></script>
+		
+	</head>
+	<body>
+		<div id="startPage">
+			<div>
+				<div></div>
+				<label for="players">PLAYERS: </label><input id="players" type="number" name="quantity" value="2" onchange="setPlayers(this)" min="2" max="4" />
+				<br />
+				<button onclick="hideStartPage()">START!</button>
+			</div>
+		</div>
+		<div id="bank">
+			<div>
+				<table>
+					<tr>
+						<td>PLAYERS</td>
+						<td>FROM</td>
+						<td>TO</td>
+						<td>BALANCE</td>
+					</tr>
+					<tr id="p0bank">
+						<td><span class="p0color"></span>BANK</td>
+						<td><input type="radio" name="first" value="p0balance" /></td>
+						<td><input type="radio" name="second" value="p0balance" /></td>
+						<td><input type="number" id="p0balance" value="150000" /></td>
+					</tr>
+					<tr id="p1bank">
+						<td><span class="p1color"></span>PLAYER1</td>
+						<td><input type="radio" name="first" value="p1balance" /></td>
+						<td><input type="radio" name="second" value="p1balance" /></td>
+						<td><input type="number" id="p1balance" value="1500" /></td>
+					</tr>
+					<tr id="p2bank">
+						<td><span class="p2color"></span>PLAYER2</td>
+						<td><input type="radio" name="first" value="p2balance" /></td>
+						<td><input type="radio" name="second" value="p2balance" /></td>
+						<td><input type="number" id="p2balance" value="1500" /></td>
+					</tr>
+					<tr id="p3bank">
+						<td><span class="p3color"></span>PLAYER3</td>
+						<td><input type="radio" name="first" value="p3balance" /></td>
+						<td><input type="radio" name="second" value="p3balance" /></td>
+						<td><input type="number" id="p3balance" value="1500" /></td>
+					</tr>
+					<tr id="p4bank">
+						<td><span class="p4color"></span>PLAYER4</td>
+						<td><input type="radio" name="first" value="p4balance" /></td>
+						<td><input type="radio" name="second" value="p4balance" /></td>
+						<td><input type="number" id="p4balance" value="1500" /></td>
+					</tr>
+					<tr>
+						<td style="text-align: center;"><input type="number" value="0" id="money" /></td>
+						<td><input type="button" name="transfer" onclick="transfer()" value=">>" /></td>
+						<td><input type="button" name="go" onclick="passGo()" value="PASS GO!" /></td>
+						<td><input type="button" value="BACK" onclick="toggleBank()" /></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<div id="board">
+			<div id="monopoly" onclick="toggleBank()"></div>
+			<div id="player1" ontouchstart="drag(this); updateZ(this);"  onmousedown="drag(this); updateZ(this);" class="player TopHat"></div>
+			<div id="player2" ontouchstart="drag(this); updateZ(this);"  onmousedown="drag(this); updateZ(this);" class="player RaceCar"></div>
+			<div id="player3" ontouchstart="drag(this); updateZ(this);"  onmousedown="drag(this); updateZ(this);" class="player Iron"></div>
+			<div id="player4" ontouchstart="drag(this); updateZ(this);"  onmousedown="drag(this); updateZ(this);" class="player Battleship"></div>
+			<div id="logo"></div>
+			<div id="community"></div>
+			<div id="chance"></div>
+			<div class="row bottom">
+				<div id="p1" class="property square">
+					<p class="m45-text">COLLECT<br /><span class="currency">₩</span><span style="padding-left: 1em;">200 SALARY</span><br />AS YOU PASS</p>
+				</div>
+				<div id="p2" class="property">
+					<p class="price"><span class="currency">₩</span>60</p>
+					<div onclick="rotateBuilding(this)" data-state="0" class="street"><span class="buildings"></span></div>
+					<p class="st-name name">OLD KENT<br />ROAD</p>
+				</div>
+				<div id="p3" class="property">
+					<p class="name">COMMUNITY<br />CHEST</p>
+				</div>
+				<div id="p4" class="property">
+					<p class="price"><span class="currency">₩</span>60</p>
+					<div onclick="rotateBuilding(this)" data-state="0" class="street"><span class="buildings"></span></div>
+					<p class="st-name name">WHITECHAPEL<br />ROAD</p>
+				</div>
+				<div id="p5" class="property">
+					<p class="name" style="font-weight: 700;">INCOME<br />TAX</p>
+					<p class="price"><span class="pay">PAY</span><span class="currency">₩</span>200</p>
+				</div>
+				<div id="p6" class="property">
+					<p class="name">KINGS CROSS<br />STATION</p>
+					<p class="price"><span class="currency">₩</span>200</p>
+				</div>
+				<div id="p7" class="property">
+					<p class="price"><span class="currency">₩</span>100</p>
+					<div onclick="rotateBuilding(this)" data-state="0" class="street"><span class="buildings"></span></div>
+					<p class="st-name name">THE ANGEL,<br />ISLINGTON</p>
+				</div>
+				<div id="p8" class="property">
+					<p class="name">CHANCE</p>
+				</div>
+				<div id="p9" class="property">
+					<p class="price"><span class="currency">₩</span>100</p>
+					<div onclick="rotateBuilding(this)" data-state="0" class="street"><span class="buildings"></span></div>
+					<p class="st-name name">EUSTON<br />ROAD</p>
+				</div>
+				<div id="p10" class="property">
+					<p class="price"><span class="currency">₩</span>120</p>
+					<div onclick="rotateBuilding(this)" data-state="0" class="street"><span class="buildings"></span></div>
+					<p class="st-name name">PENTONVILLE<br />ROAD</p>
+				</div>
+			</div>
+			<div class="row left">
+				<div id="p11" class="property  square">
+					<p class="jail-text"><span class="j1">JUST</span><span class="j2">VISITING</span></p>
+				</div>
+				<div id="p12" class="property">
+					<p class="price"><span class="currency">₩</span>140</p>
+					<div onclick="rotateBuilding(this)" data-state="0" class="street"><span class="buildings"></span></div>
+					<p class="st-name name">PALL<br />MALL</p>
+				</div>
+				<div id="p13" class="property">
+					<p class="name">ELECTRIC<br />COMPANY</p>
+					<p class="price"><span class="currency">₩</span>150</p>
+				</div>
+				<div id="p14" class="property">
+					<p class="price"><span class="currency">₩</span>140</p>
+					<div onclick="rotateBuilding(this)" data-state="0" class="street"><span class="buildings"></span></div>
+					<p class="st-name name">WHITEHALL</p>
+				</div>
+				<div id="p15" class="property">
+					<p class="price"><span class="currency">₩</span>160</p>
+					<div onclick="rotateBuilding(this)" data-state="0" class="street"><span class="buildings"></span></div>
+					<p class="st-name name">NORTHUMRL'D<br />AVENUE</p>
+				</div>
+				<div id="p16" class="property">
+					<p class="name">MARYLEBONE<br />STATION</p>
+					<p class="price"><span class="currency">₩</span>200</p>
+				</div>
+				<div id="p17" class="property">
+					<p class="price"><span class="currency">₩</span>180</p>
+					<div onclick="rotateBuilding(this)" data-state="0" class="street"><span class="buildings"></span></div>
+					<p class="st-name name">BOW<br />STREET</p>
+				</div>
+				<div id="p18" class="property">
+					<p class="name">COMMUNITY<br />CHEST</p>
+				</div>
+				<div id="p19" class="property">
+					<p class="price"><span class="currency">₩</span>180</p>
+					<div onclick="rotateBuilding(this)" data-state="0" class="street"><span class="buildings"></span></div>
+					<p class="st-name name">MARLBOROUGH<br />STREET</p>
+				</div>
+				<div id="p20" class="property">
+					<p class="price"><span class="currency">₩</span>200</p>
+					<div onclick="rotateBuilding(this)" data-state="0" class="street"><span class="buildings"></span></div>
+					<p class="st-name name">VINE<br />STREET</p>
+				</div>
+			</div>
+			<div class="row top">	
+				<div id="p21" class="property  square">
+					<p class="m45-text"><span class="m45-top">FREE</span><span class="m45-bottom">PARKING</span></p>
+				</div>
+				<div id="p22" class="property">
+					<p class="price"><span class="currency">₩</span>220</p>
+					<div onclick="rotateBuilding(this)" data-state="0" class="street"><span class="buildings"></span></div>
+					<p class="st-name name">STRAND</p>
+				</div>
+				<div id="p23" class="property">
+					<p class="name">CHANCE</p>
+				</div>
+				<div id="p24" class="property">
+					<p class="price"><span class="currency">₩</span>220</p>
+					<div onclick="rotateBuilding(this)" data-state="0" class="street"><span class="buildings"></span></div>
+					<p class="st-name name">FLEET<br />STREET</p>
+				</div>
+				<div id="p25" class="property">
+					<p class="price"><span class="currency">₩</span>240</p>
+					<div onclick="rotateBuilding(this)" data-state="0" class="street"><span class="buildings"></span></div>
+					<p class="st-name name">TRAFALGAR<br />SQUARE</p>
+				</div>
+				<div id="p26" class="property">
+					<p class="name">FENCHURCH ST.<br />STATION</p>
+					<p class="price"><span class="currency">₩</span>200</p>
+				</div>
+				<div id="p27" class="property">
+					<p class="price"><span class="currency">₩</span>260</p>
+					<div onclick="rotateBuilding(this)" data-state="0" class="street"><span class="buildings"></span></div>
+					<p class="st-name name">LEICESTER<br />SQUARE</p>
+				</div>
+				<div id="p28" class="property">
+					<p class="price"><span class="currency">₩</span>260</p>
+					<div onclick="rotateBuilding(this)" data-state="0" class="street"><span class="buildings"></span></div>
+					<p class="st-name name">COVENTRY<br />STREET</p>
+				</div>
+				<div id="p29" class="property">
+					<p class="name">WATER<br />WORKS</p>
+					<p class="price"><span class="currency">₩</span>150</p>
+				</div>
+				<div id="p30" class="property">
+					<p class="price"><span class="currency">₩</span>280</p>
+					<div onclick="rotateBuilding(this)" data-state="0" class="street"><span class="buildings"></span></div>
+					<p class="st-name name">PICCADILLY</p>
+				</div>
+			</div>
+			<div class="row right">
+				<div id="p31" class="property  square">
+					<p class="m45-text"><span class="m45-top">GO TO</span><span class="m45-bottom">JAIL</span></p>
+				</div>
+				<div id="p32" class="property">
+					<p class="price"><span class="currency">₩</span>300</p>
+					<div onclick="rotateBuilding(this)" data-state="0" class="street"><span class="buildings"></span></div>
+					<p class="st-name name">REGENT<br />STREET</p>
+				</div>
+				<div id="p33" class="property">
+					<p class="price"><span class="currency">₩</span>300</p>
+					<div onclick="rotateBuilding(this)" data-state="0" class="street"><span class="buildings"></span></div>
+					<p class="st-name name">OXFORD<br />STREET</p>
+				</div>
+				<div id="p34" class="property">
+					<p class="name">COMMUNITY<br />CHEST</p>
+				</div>
+				<div id="p35" class="property">
+					<p class="price"><span class="currency">₩</span>320</p>
+					<div onclick="rotateBuilding(this)" data-state="0" class="street"><span class="buildings"></span></div>
+					<p class="st-name name">BOND<br />STREET</p>
+				</div>
+				<div id="p36" class="property">
+					<p class="name">LIVERPOOL ST.<br />STATION</p>
+					<p class="price"><span class="currency">₩</span>200</p>
+				</div>
+				<div id="p37" class="property">
+					<p class="name">CHANCE</p>
+				</div>
+				<div id="p38" class="property">
+					<p class="price"><span class="currency">₩</span>340</p>
+					<div onclick="rotateBuilding(this)" data-state="0" class="street"><span class="buildings"></span></div>
+					<p class="st-name name">PARK<br />LANE</p>
+				</div>
+				<div id="p39" class="property">
+					<p class="name" style="font-weight: 700;">LUXURY<br />TAX</p>
+					<p class="price"><span class="pay">PAY</span><span class="currency">₩</span>100</p>
+				</div>
+				<div id="p40" class="property">
+					<p class="price"><span class="currency">₩</span>360</p>
+					<div onclick="rotateBuilding(this)" data-state="0" class="street"><span class="buildings"></span></div>
+					<p class="st-name name">MAYFAIR</p>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
