@@ -67,6 +67,7 @@ window.ontouchend = function () {
 
 var hideStartPage = function () {
 	document.getElementById ( 'startPage' ).style.right = '300%';
+	document.getElementById ( 'money' ).value = null;
 	return;
 }
 
@@ -76,6 +77,7 @@ var toggleBank = function () {
 		return;
 	}
 	document.getElementById ( 'bank' ).style.right = '300%';
+	document.getElementById ( 'money' ).value = null;
 	return;
 }
 
@@ -112,7 +114,6 @@ var setPlayers = function ( num ) {
 			document.getElementById ( 'p4bank' ).style.display = 'none';
 		
 	}
-	console.log (num.value);
 	return;
 }
 
